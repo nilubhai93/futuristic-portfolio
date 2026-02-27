@@ -204,6 +204,8 @@ const Navigation = () => {
   return (
     <>
       <motion.nav
+        role="navigation"
+        aria-label="Main navigation"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, delay: 0.5 }}
@@ -301,7 +303,7 @@ const Hero = () => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center px-4 sm:px-6 md:px-12 bg-slate-950 overflow-hidden pt-24 md:pt-20">
+    <section id="home" aria-label="Hero section" className="relative min-h-screen flex items-center px-4 sm:px-6 md:px-12 bg-slate-950 overflow-hidden pt-24 md:pt-20">
       {/* Animated Background Gradients */}
       <motion.div
         style={{ y: y1 }}
@@ -478,7 +480,7 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="py-16 sm:py-24 md:py-32 bg-slate-950 relative overflow-hidden">
+    <section id="about" aria-label="About Niladri Sekhar Maji" className="py-16 sm:py-24 md:py-32 bg-slate-950 relative overflow-hidden">
       {/* Background Element */}
       <motion.div
         initial={{ scale: 0, opacity: 0 }}
@@ -701,7 +703,7 @@ const Skills = () => {
   ];
 
   return (
-    <section id="skills" className="py-16 sm:py-20 bg-slate-950 overflow-hidden border-t border-white/5">
+    <section id="skills" aria-label="Technical skills" className="py-16 sm:py-20 bg-slate-950 overflow-hidden border-t border-white/5">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -985,7 +987,7 @@ const Projects = () => {
   ];
 
   return (
-    <section id="projects" className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-slate-950 relative overflow-hidden">
+    <section id="projects" aria-label="Portfolio projects" className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-slate-950 relative overflow-hidden">
       {/* Background Animation */}
       <motion.div
         animate={{
@@ -1122,7 +1124,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-slate-950 relative overflow-hidden">
+    <section id="contact" aria-label="Contact form" className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-slate-950 relative overflow-hidden">
       {/* Background Decoration */}
       <motion.div
         animate={{
@@ -1246,13 +1248,16 @@ const Footer = () => {
           className="flex gap-6 sm:gap-8"
         >
           {[
-            { icon: <FaGithub size={18} />, link: "#" },
-            { icon: <FaLinkedin size={18} />, link: "#" },
-            { icon: <FaEnvelope size={18} />, link: "#" }
+            { icon: <FaGithub size={18} />, link: "https://github.com/nilubhai93", label: "GitHub profile" },
+            { icon: <FaLinkedin size={18} />, link: "https://www.linkedin.com/in/niladri-sekhar-maji-475430308", label: "LinkedIn profile" },
+            { icon: <FaEnvelope size={18} />, link: "mailto:your@email.com", label: "Send email" }
           ].map((item, i) => (
             <motion.a
               key={i}
               href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={item.label}
               whileHover={{ scale: 1.2, y: -3 }}
               whileTap={{ scale: 0.9 }}
               className="text-gray-400 hover:text-white transition-colors"
@@ -1263,7 +1268,7 @@ const Footer = () => {
         </motion.div>
 
         <div className="text-gray-600 text-xs sm:text-sm text-center">
-          © 2024 All Rights Reserved.
+          © 2025 Niladri Sekhar Maji. All Rights Reserved.
         </div>
       </div>
     </motion.footer>
