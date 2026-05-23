@@ -375,10 +375,10 @@ const Hero = () => {
             className="flex gap-3 sm:gap-4 mb-8 md:mb-10 justify-center md:justify-start"
           >
             {[
-              { icon: <FaGithub />, link: "https://github.com/nilubhai93" },
-              { icon: <FaLinkedin />, link: "https://www.linkedin.com/in/niladri-sekhar-maji-475430308" },
-              { icon: <FaEnvelope />, link: "mailto:your@email.com" },
-              { icon: <FaCode />, link: "#" }
+              { icon: <FaGithub />, link: "https://github.com/nilubhai93", label: "GitHub Profile" },
+              { icon: <FaLinkedin />, link: "https://www.linkedin.com/in/niladri-sekhar-maji-475430308", label: "LinkedIn Profile" },
+              { icon: <FaEnvelope />, link: "mailto:your@email.com", label: "Send Email" },
+              { icon: <FaCode />, link: "#", label: "Code Repository" }
             ].map((item, index) => (
               <motion.a
                 key={index}
@@ -386,6 +386,7 @@ const Hero = () => {
                 href={item.link}
                 target="_blank"
                 rel="noreferrer"
+                aria-label={item.label}
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-purple-400 hover:border-purple-400 hover:bg-white/5 transition-all duration-300"
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 whileTap={{ scale: 0.9 }}
@@ -574,7 +575,7 @@ const Certifications = () => {
   ];
 
   return (
-    <section className="py-16 sm:py-20 bg-[#030014] px-4 sm:px-6">
+    <section id="certifications" aria-label="Certifications and credentials" className="py-16 sm:py-20 bg-[#030014] px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <motion.div
@@ -911,7 +912,7 @@ const Experience = () => {
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-slate-950 relative overflow-hidden">
+    <section id="experience" aria-label="Professional journey and experience" className="py-16 sm:py-24 bg-slate-950 relative overflow-hidden">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
@@ -1275,12 +1276,120 @@ const Footer = () => {
   );
 };
 
+// Dynamic SEO Meta Mapping for Search Engines
+const SECTION_METADATA = {
+  home: {
+    title: "Niladri Sekhar Maji | Full Stack MERN & React Native Developer Portfolio",
+    description: "Welcome to the futuristic portfolio of Niladri Sekhar Maji — Full Stack Developer specializing in MERN Stack, React, Node.js, and React Native. Explore projects, skills, and experience.",
+  },
+  about: {
+    title: "About Niladri Sekhar Maji | Full Stack Software Engineer",
+    description: "Learn about Niladri Sekhar Maji, a Full Stack Developer dedicated to architecting high-quality web and mobile solutions with the MERN stack and React Native.",
+  },
+  certifications: {
+    title: "Professional Certifications | Niladri Sekhar Maji",
+    description: "View Niladri Sekhar Maji's professional training credentials, including IBM Full Stack Development Training and PW Skills Full Stack Developer certification.",
+  },
+  skills: {
+    title: "Technical Stack & Expertise | Niladri Sekhar Maji",
+    description: "Explore the technical arsenal of Niladri Sekhar Maji, spanning React, React Native, TypeScript, Node.js, Express, MongoDB, MySQL, and Python.",
+  },
+  experience: {
+    title: "Professional Experience & Journey | Niladri Sekhar Maji",
+    description: "Trace the professional software development journey of Niladri Sekhar Maji. Experienced in leading frontend architecture and building scalable APIs.",
+  },
+  projects: {
+    title: "Selected Enterprise Projects & Works | Niladri Sekhar Maji",
+    description: "Browse selected projects by Niladri Sekhar Maji, including an Educational CRM Platform, Learning Management System, and Hostel Management System.",
+  },
+  contact: {
+    title: "Get In Touch & Collaboration | Niladri Sekhar Maji",
+    description: "Looking to hire a Full Stack MERN or React Native developer? Contact Niladri Sekhar Maji for freelance opportunities and full-time software engineering roles.",
+  }
+};
+
 /**
  * MAIN APP COMPONENT
  */
 function App() {
   const [loading, setLoading] = useState(true);
   const scrollRef = useRef(null);
+
+  // Dynamic SEO based on active section
+  useEffect(() => {
+    if (loading) return;
+
+    const sections = ['home', 'about', 'certifications', 'skills', 'experience', 'projects', 'contact'];
+    
+    const updateSEO = (sectionId) => {
+      const meta = SECTION_METADATA[sectionId];
+      if (!meta) return;
+
+      // Update Title
+      document.title = meta.title;
+
+      // Update Meta Description
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute('content', meta.description);
+
+      // Update Open Graph tags
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute('content', meta.title);
+
+      const ogDesc = document.querySelector('meta[property="og:description"]');
+      if (ogDesc) ogDesc.setAttribute('content', meta.description);
+
+      // Update Twitter tags
+      const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+      if (twitterTitle) twitterTitle.setAttribute('content', meta.title);
+
+      const twitterDesc = document.querySelector('meta[name="twitter:description"]');
+      if (twitterDesc) twitterDesc.setAttribute('content', meta.description);
+
+      // Update Canonical Link with section hash
+      const canonicalLink = document.querySelector('link[rel="canonical"]');
+      if (canonicalLink) {
+        const baseUrl = 'https://nilubhai93.github.io/futuristic-portfolio/';
+        canonicalLink.setAttribute('href', `${baseUrl}#${sectionId}`);
+      }
+
+      // Update hash in URL quietly without triggering scroll jump
+      if (window.history.replaceState) {
+        window.history.replaceState(null, null, `#${sectionId}`);
+      } else {
+        window.location.hash = `#${sectionId}`;
+      }
+    };
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '-30% 0px -30% 0px', // Trigger when section occupies the middle portion of viewport
+      threshold: 0.1
+    };
+
+    const observerCallback = (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          updateSEO(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    sections.forEach(id => {
+      const element = document.getElementById(id);
+      if (element) observer.observe(element);
+    });
+
+    return () => {
+      sections.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) observer.unobserve(element);
+      });
+      observer.disconnect();
+    };
+  }, [loading]);
 
   // Initialize Smooth Scroll (Lenis)
   useEffect(() => {
