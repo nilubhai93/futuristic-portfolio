@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /dist/
 Disallow: /node_modules/
-Sitemap: https://nilubhai93.github.io/futuristic-portfolio/sitemap.xml
+Sitemap: https://nilubhai93.github.io/niladri-portfolio/sitemap.xml

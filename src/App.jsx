@@ -1349,7 +1349,7 @@ function App() {
       // Update Canonical Link with section hash
       const canonicalLink = document.querySelector('link[rel="canonical"]');
       if (canonicalLink) {
-        const baseUrl = 'https://nilubhai93.github.io/futuristic-portfolio/';
+        const baseUrl = 'https://nilubhai93.github.io/niladri-portfolio/';
         canonicalLink.setAttribute('href', `${baseUrl}#${sectionId}`);
       }
 
